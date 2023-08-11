@@ -1,0 +1,1 @@
+so far, the app is a Vue app with CDN.
