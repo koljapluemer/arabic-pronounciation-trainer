@@ -1,47 +1,37 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import words from "./words.js";
+import { ref } from "vue";
+
+let randomWord = ref([]);
+
+function getRandomWord() {
+  isRevealed.value = false;
+  randomWord.value = words[Math.floor(Math.random() * words.length)];
+}
+
+let isRevealed = ref(false);
+
+getRandomWord();
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+  <div class="card bg-base-300 shadow-xl m-4 flex flex-col items-center w-full max-w-screen-sm">
+    <div class="card-body">
+      <h2 class="card-title  my-2 text-6xl">{{ randomWord[0] }}</h2>
+      <p :class="{'hidden': !isRevealed}" class="my-2 text-4xl">
+      
+      {{ randomWord[1] }}</p>
+      <div class="card-actions justify-end mt-6">
+        <button class="btn btn-primary" @click="isRevealed=true" v-if="!isRevealed">
+          I have copied and tried to pronounce the word
+        </button>
+        <button class="btn btn-primary" @click="getRandomWord" v-else>
+          New Random Word
+        </button>
+      </div>
     </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  </div>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
-</style>
+<style scoped></style>
