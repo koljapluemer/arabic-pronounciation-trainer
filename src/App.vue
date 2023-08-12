@@ -11,13 +11,47 @@ function getRandomWord() {
   if (!newWord.evaluationType) {
     newWord.evaluationType = Math.random() > 0.5 ? "anki" : "likert";
   }
+  valueEase.value = null;
+  valueCorrect.value = null;
+  valueAnki.value = null;
 
   randomWord.value = newWord;
 }
 
 let isRevealed = ref(false);
 
+let valueEase = ref(null);
+let valueCorrect = ref(null);
+let valueAnki = ref(null);
+
 getRandomWord();
+
+function evaluateScore() {
+  if (randomWord.value.evaluationType == "anki") {
+    if (valueAnki.value == null) return;
+    // add a log to the word's repetition property - if the property doesn't exist, create it
+    if (!randomWord.value.repetition) {
+      randomWord.value.repetition = [];
+    }
+    randomWord.value.repetition.push({
+      date: new Date().toISOString(),
+      score: valueAnki.value,
+    });
+    getRandomWord();
+  } else {
+    if (valueEase.value == null || valueCorrect.value == null) return;
+    // add a log to the word's repetition property - if the property doesn't exist, create it
+    if (!randomWord.value.repetition) {
+      randomWord.value.repetition = [];
+    }
+    randomWord.value.repetition.push({
+      date: new Date().toISOString(),
+      ease: valueEase.value,
+      correct: valueCorrect.value,
+    });
+    getRandomWord();
+  }
+}
 </script>
 
 <template>
@@ -25,7 +59,6 @@ getRandomWord();
     class="card bg-gray-600 shadow-xl m-4 flex flex-col items-center w-full max-w-screen-xl"
   >
     <div class="card-body">
-
       <h2 class="card-title my-2 text-6xl">{{ randomWord.og }}</h2>
       <div :class="{ hidden: !isRevealed }" class="flex items-center gap-2">
         <p class="my-2 text-4xl">
@@ -65,17 +98,154 @@ getRandomWord();
             class="flex gap-2 justify-center items-center"
             v-if="randomWord.evaluationType == 'anki'"
           >
-            <button class="btn">Wrong</button>
-            <button class="btn">Correct</button>
-            <button class="btn">Easy</button>
+            <button
+              class="btn"
+              @click="
+                valueAnki = 0;
+                evaluateScore();
+              "
+              :class="{ 'btn-primary': valueAnki == 0 }"
+            >
+              Again
+            </button>
+            <button
+              class="btn"
+              @click="
+                valueAnki = 1;
+                evaluateScore();
+              "
+              :class="{ 'btn-primary': valueAnki == 1 }"
+            >
+              Hard
+            </button>
+            <button
+              class="btn"
+              @click="
+                valueAnki = 2;
+                evaluateScore();
+              "
+              :class="{ 'btn-primary': valueAnki == 2 }"
+            >
+              Good
+            </button>
+            <button
+              class="btn"
+              @click="
+                valueAnki = 3;
+                evaluateScore();
+              "
+              :class="{ 'btn-primary': valueAnki == 3 }"
+            >
+              Easy
+            </button>
           </div>
-          <div class="flex gap-2 justify-center items-center" v-else>
-            <span class="w-52">I did the task correctly</span>
-            <button class="btn">Strongly Disagree</button>
-            <button class="btn">Disagree</button>
-            <button class="btn">Neutral</button>
-            <button class="btn">Agree</button>
-            <button class="btn">Strongly Agree</button>
+          <div class="" v-else>
+            <div class="flex gap-2 justify-center items-center my-2">
+              <span class="w-52">I did the task correctly</span>
+              <button
+                class="btn"
+                @click="
+                  valueCorrect = 0;
+                  evaluateScore();
+                "
+                :class="{ 'btn-primary': valueCorrect == 0 }"
+              >
+                Strongly Disagree
+              </button>
+              <button
+                class="btn"
+                @click="
+                  valueCorrect = 1;
+                  evaluateScore();
+                "
+                :class="{ 'btn-primary': valueCorrect == 1 }"
+              >
+                Disagree
+              </button>
+              <button
+                class="btn"
+                @click="
+                  valueCorrect = 2;
+                  evaluateScore();
+                "
+                :class="{ 'btn-primary': valueCorrect == 2 }"
+              >
+                Undecided
+              </button>
+              <button
+                class="btn"
+                @click="
+                  valueCorrect = 3;
+                  evaluateScore();
+                "
+                :class="{ 'btn-primary': valueCorrect == 3 }"
+              >
+                Agree
+              </button>
+              <button
+                class="btn"
+                @click="
+                  valueCorrect = 4;
+                  evaluateScore();
+                "
+                :class="{ 'btn-primary': valueCorrect == 4 }"
+              >
+                Strongly Agree
+              </button>
+            </div>
+            <div class="flex gap-2 justify-center items-center my-2">
+              <span class="w-52">The task was easy</span>
+              <button
+                class="btn"
+                @click="
+                  valueEase = 0;
+                  evaluateScore();
+                "
+                :class="{ 'btn-primary': valueEase == 0 }"
+              >
+                Strongly Disagree
+              </button>
+              <button
+                class="btn"
+                @click="
+                  valueEase = 1;
+                  evaluateScore();
+                "
+                :class="{ 'btn-primary': valueEase == 1 }"
+              >
+                Disagree
+              </button>
+              <button
+                class="btn"
+                @click="
+                  valueEase = 2;
+                  evaluateScore();
+                "
+                :class="{ 'btn-primary': valueEase == 2 }"
+              >
+                Undecided
+              </button>
+              <button
+                class="btn"
+                @click="
+                  valueEase = 3;
+                  evaluateScore();
+                "
+                :class="{ 'btn-primary': valueEase == 3 }"
+              >
+                Agree
+              </button>
+              <button
+                class="btn"
+                @click="
+                  valueEase = 4;
+                  evaluateScore();
+                "
+                :class="{ 'btn-primary': valueEase == 4 }"
+              >
+                Strongly Agree
+              </button>
+            </div>
           </div>
         </div>
       </div>
