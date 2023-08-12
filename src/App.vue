@@ -24,7 +24,7 @@ getRandomWord();
         <p class="my-2 text-4xl">
           {{ randomWord[1] }}
         </p>
-        <a :href="`https://forvo.com/search/${randomWord[0]}/ar/`">
+        <a :href="`https://forvo.com/search/${randomWord[0]}/ar/`" target="_blank">
           <svg
             aria-hidden="true"
             fill="none"
