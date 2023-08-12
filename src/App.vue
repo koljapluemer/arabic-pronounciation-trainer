@@ -7,7 +7,11 @@ let randomWord = ref([]);
 function getRandomWord() {
   isRevealed.value = false;
   const newWord = words[Math.floor(Math.random() * words.length)];
-  
+  // if newWord is missing property evaluationType, randomly give it 'anki' or 'likert'
+  if (!newWord.evaluationType) {
+    newWord.evaluationType = Math.random() > 0.5 ? "anki" : "likert";
+  }
+
   randomWord.value = newWord;
 }
 
@@ -18,15 +22,19 @@ getRandomWord();
 
 <template>
   <div
-    class="card bg-base-300 shadow-xl m-4 flex flex-col items-center w-full max-w-screen-sm"
+    class="card bg-gray-600 shadow-xl m-4 flex flex-col items-center w-full max-w-screen-xl"
   >
     <div class="card-body">
+
       <h2 class="card-title my-2 text-6xl">{{ randomWord.og }}</h2>
       <div :class="{ hidden: !isRevealed }" class="flex items-center gap-2">
         <p class="my-2 text-4xl">
           {{ randomWord.translit }}
         </p>
-        <a :href="`https://forvo.com/search/${randomWord.og}/ar/`" target="_blank">
+        <a
+          :href="`https://forvo.com/search/${randomWord.og}/ar/`"
+          target="_blank"
+        >
           <svg
             aria-hidden="true"
             fill="none"
@@ -44,7 +52,7 @@ getRandomWord();
           </svg>
         </a>
       </div>
-      <div class="card-actions justify-end mt-6">
+      <div class="card-actions justify-end mt-6 border-t-2 pt-2">
         <button
           class="btn btn-primary"
           @click="isRevealed = true"
@@ -52,9 +60,24 @@ getRandomWord();
         >
           I have copied and tried to pronounce the word
         </button>
-        <button class="btn btn-primary" @click="getRandomWord" v-else>
-          New Random Word
-        </button>
+        <div class="" v-else>
+          <div
+            class="flex gap-2 justify-center items-center"
+            v-if="randomWord.evaluationType == 'anki'"
+          >
+            <button class="btn">Wrong</button>
+            <button class="btn">Correct</button>
+            <button class="btn">Easy</button>
+          </div>
+          <div class="flex gap-2 justify-center items-center" v-else>
+            <span class="w-52">I did the task correctly</span>
+            <button class="btn">Strongly Disagree</button>
+            <button class="btn">Disagree</button>
+            <button class="btn">Neutral</button>
+            <button class="btn">Agree</button>
+            <button class="btn">Strongly Agree</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
