@@ -3,10 +3,19 @@ import words from "./words.js";
 import { ref } from "vue";
 
 let randomWord = ref([]);
+let wordBank = [];
+// see if wordBank is in localStorage, if so, load it,  if not, set it to the imported words
+if (!localStorage.getItem("wordBank")) {
+  wordBank.value = words;
+} else {
+  // if it is in localStorage, set the wordBank to the localStorage value
+  wordBank.value = JSON.parse(localStorage.getItem("wordBank"));
+}
 
 function getRandomWord() {
   isRevealed.value = false;
-  const newWord = words[Math.floor(Math.random() * words.length)];
+  console.log('picking word from', wordBank)
+  const newWord = wordBank.value[Math.floor(Math.random() * wordBank.value.length)];
   // if newWord is missing property evaluationType, randomly give it 'anki' or 'likert'
   if (!newWord.evaluationType) {
     newWord.evaluationType = Math.random() > 0.5 ? "anki" : "likert";
@@ -16,6 +25,8 @@ function getRandomWord() {
   valueAnki.value = null;
 
   randomWord.value = newWord;
+  // save the wordBank to localStorage (doesn't make that much sense here in the code but whatever)
+  localStorage.setItem("wordBank", JSON.stringify(wordBank.value));
 }
 
 let isRevealed = ref(false);
@@ -30,10 +41,10 @@ function evaluateScore() {
   if (randomWord.value.evaluationType == "anki") {
     if (valueAnki.value == null) return;
     // add a log to the word's repetition property - if the property doesn't exist, create it
-    if (!randomWord.value.repetition) {
-      randomWord.value.repetition = [];
+    if (!randomWord.value.repetitions) {
+      randomWord.value.repetitions = [];
     }
-    randomWord.value.repetition.push({
+    randomWord.value.repetitions.push({
       date: new Date().toISOString(),
       score: valueAnki.value,
     });
@@ -41,10 +52,10 @@ function evaluateScore() {
   } else {
     if (valueEase.value == null || valueCorrect.value == null) return;
     // add a log to the word's repetition property - if the property doesn't exist, create it
-    if (!randomWord.value.repetition) {
-      randomWord.value.repetition = [];
+    if (!randomWord.value.repetitions) {
+      randomWord.value.repetitions = [];
     }
-    randomWord.value.repetition.push({
+    randomWord.value.repetitions.push({
       date: new Date().toISOString(),
       ease: valueEase.value,
       correct: valueCorrect.value,
@@ -251,6 +262,7 @@ function evaluateScore() {
       </div>
     </div>
   </div>
+
 </template>
 
 <style scoped></style>
