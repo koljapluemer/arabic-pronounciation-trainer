@@ -12,10 +12,21 @@ if (!localStorage.getItem("wordBank")) {
   wordBank.value = JSON.parse(localStorage.getItem("wordBank"));
 }
 
+// same with localStorage stats
+let stats = {};
+if (!localStorage.getItem("stats")) {
+  stats = {
+    counter: 0,
+  };
+} else {
+  stats = JSON.parse(localStorage.getItem("stats"));
+}
+
 function getRandomWord() {
   isRevealed.value = false;
-  console.log('picking word from', wordBank)
-  const newWord = wordBank.value[Math.floor(Math.random() * wordBank.value.length)];
+  console.log("picking word from", wordBank);
+  const newWord =
+    wordBank.value[Math.floor(Math.random() * wordBank.value.length)];
   // if newWord is missing property evaluationType, randomly give it 'anki' or 'likert'
   if (!newWord.evaluationType) {
     newWord.evaluationType = Math.random() > 0.5 ? "anki" : "likert";
@@ -48,6 +59,8 @@ function evaluateScore() {
       date: new Date().toISOString(),
       score: valueAnki.value,
     });
+    stats.counter++;
+    localStorage.setItem("stats", JSON.stringify(stats));
     getRandomWord();
   } else {
     if (valueEase.value == null || valueCorrect.value == null) return;
@@ -60,12 +73,15 @@ function evaluateScore() {
       ease: valueEase.value,
       correct: valueCorrect.value,
     });
+    stats.counter++;
+    localStorage.setItem("stats", JSON.stringify(stats));
     getRandomWord();
   }
 }
 </script>
 
 <template>
+  <small> Practiced {{ stats.counter }} times so far </small>
   <div
     class="card bg-gray-600 shadow-xl m-4 flex flex-col items-center w-full max-w-screen-xl"
   >
@@ -262,7 +278,6 @@ function evaluateScore() {
       </div>
     </div>
   </div>
-
 </template>
 
 <style scoped></style>
