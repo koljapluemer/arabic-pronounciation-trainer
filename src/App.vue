@@ -4,6 +4,8 @@ import { ref } from "vue";
 
 let randomWord = ref([]);
 let wordBank = [];
+let unitsPracticedToday = 0;
+let unitsPracticedYesterday = 0;
 // see if wordBank is in localStorage, if so, load it,  if not, set it to the imported words
 if (!localStorage.getItem("wordBank")) {
   wordBank.value = words;
