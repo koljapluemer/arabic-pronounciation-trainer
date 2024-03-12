@@ -5,4 +5,4 @@
 
 ## could
 
-* implement stats with a good pattern this time
+* implement stats with a useful pattern this time

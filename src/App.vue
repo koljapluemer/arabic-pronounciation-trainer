@@ -85,7 +85,7 @@ function evaluateScore() {
 <template>
   <small> Practiced {{ stats.counter }} times so far </small>
   <div
-    class="card bg-gray-600 shadow-xl m-4 flex flex-col items-center w-full max-w-screen-xl"
+    class="card shadow-xl m-4 flex flex-col items-center"
   >
     <div class="card-body">
       <h2 class="card-title my-2 text-6xl">{{ randomWord.og }}</h2>

@@ -1,0 +1,2 @@
+- as of now, state is extremely simple and the app can be tested manually.
+- look should be tested in light & dark theme

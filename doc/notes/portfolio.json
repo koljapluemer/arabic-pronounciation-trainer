@@ -1,0 +1,18 @@
+{
+  "title": "Arabic Syllables Pronunciation trainer",
+  "status": "mvp",
+  "showOnPortfolio": true,
+  "shownAboveFold": false,
+  "imageAltProperty": "Screenshot of the project",
+  "subtitle": "Practice Arabic by saying simple words out loud",
+  "links": [
+    {
+      "title": "Try it out",
+      "url": "https://arabic-pronounciation.koljapluemer.com/"
+    },
+    {
+      "title": "GitHub",
+      "url": "https://github.com/koljapluemer/arabic-pronounciation-trainer"
+    }
+  ]
+}
