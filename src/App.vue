@@ -80,13 +80,41 @@ function evaluateScore() {
     getRandomWord();
   }
 }
+
+const handleSave = () => {
+  // download localstorage stats wordBank as json file
+    const data = localStorage.getItem("wordBank");
+    const blob = new Blob([data], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "arabic-pronunciation-statistics.json";
+    a.click();
+    URL.revokeObjectURL(url);
+
+
+};
 </script>
 
 <template>
-  <small> Practiced {{ stats.counter }} times so far </small>
-  <div
-    class="card shadow-xl m-4 flex flex-col items-center"
-  >
+  <div class="navbar bg-base-100">
+    <div class="font-bold flex-1">
+      Practice Arabic Pronunciation and Handwriting
+    </div>
+    <div class="flex-none">
+      <ul class="menu menu-horizontal px-1">
+        <li>
+          <small> Practiced {{ stats.counter }} times so far </small>
+        </li>
+        <li>
+          <button class="btn btn-sm" @click="handleSave">
+            💾&nbsp;Save Learning Data
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="card shadow-xl m-4 flex flex-col items-center bg-neutral">
     <div class="card-body">
       <h2 class="card-title my-2 text-6xl">{{ randomWord.og }}</h2>
       <div :class="{ hidden: !isRevealed }" class="flex items-center gap-2">
