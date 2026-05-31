@@ -1,4 +1,4 @@
-# Arabic Syllables Pronunciation Trainer
+# Arabic Pronunciation Trainer
 
 ![Project Image](/doc/img/project.png)
 
@@ -19,6 +19,13 @@
 
 * [x] As a learner, I want to practice the connection of Arabic letters, syllables or short words with the corresponding sounds in an efficient and fun manner.
 * [ ] As an admin, I want to gather data about the learning success and research different SR ideas.
+
+## Running Locally
+
+```bash
+npm install
+npm run dev
+```
 
 ## Credit
 
