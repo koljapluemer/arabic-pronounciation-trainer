@@ -2,7 +2,7 @@
 
 ![Project Image](/doc/img/project.png)
 
-- this project is a free online app: **[Play Here](https://arabic-pronounciation.koljapluemer.com/)**
+this project is a free online app: **[Play Here](https://arabic.koljasam.com/)**
 
 ## Core Idea
 
